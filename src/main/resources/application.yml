@@ -1,0 +1,56 @@
+server:
+  session-timeout: 1800
+#    tomcat:
+#        max-threads: 1000
+#        min-spare-threads: 30
+  port: 80
+#    uri-encoding: utf-8
+security:
+  basic:
+    enabled: false
+spring:
+  freemarker:  
+    allow-session-override: false
+    allow-request-override: false 
+    cache: false  
+    check-template-location: true
+    enabled: true
+    charset: UTF-8  
+    content-type: text/html; charset=utf-8  
+    expose-request-attributes: false  
+    expose-session-attributes: false  
+    expose-spring-macro-helpers: false  
+    request-context-attribute: request
+    prefer-file-system-access: true
+    suffix: .html  
+    number_format: 0.##########
+    datetime_format: yyyy-MM-dd HH:mm:ss
+    template_exception_handler: ignore
+    template-loader-path: classpath:/templates/
+    settings: 
+        template_update_delay: 0
+        default_encoding: UTF-8
+        classic_compatible: true 
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles: 
+    active: dev
+  http:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 30Mb
+  devtools:
+    restart:
+      enabled: true
+  cache:
+    type: ehcache
+    ehcache:
+      config: config/ehcache.xml
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis/**/*Mapper.xml
+  typeAliasesPackage: com.bootdo.**.domain
+#[弃用]配置缓存和session存储方式，默认ehcache,可选redis,[弃用]调整至 spring cache type【shiro.用户，权限，session，spring.cache通用】
+#[弃用]cacheType: ehcache

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.admin.dao.MenuDao">
+
+	<select id="menuList" resultType="java.util.Map">
+		select
+			`menu_id` menuId,`parent_id` parentId,`name` name,`url` url,`perms` perms,`type`
+			type,`icon` icon,`order_num` orderNum,`gmt_create`
+			gmtCreate,`gmt_modified` gmtModified
+		from sys_menu
+		<where>
+			<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="url != null and url != ''"> and url = #{url} </if>
+			<if test="perms != null and perms != ''"> and perms = #{perms} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="icon != null and icon != ''"> and icon = #{icon} </if>
+			<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
+			<if test="gmtCreate != null and gmtCreate != ''"> and gmt_create = #{gmtCreate} </if>
+			<if test="gmtModified != null and gmtModified != ''"> and gmt_modified = #{gmtModified} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by menu_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="menuCount" resultType="java.lang.Long">
+		select
+			count(0)
+		from sys_menu
+		<where>
+			<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="url != null and url != ''"> and url = #{url} </if>
+			<if test="perms != null and perms != ''"> and perms = #{perms} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="icon != null and icon != ''"> and icon = #{icon} </if>
+			<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
+			<if test="gmtCreate != null and gmtCreate != ''"> and gmt_create = #{gmtCreate} </if>
+			<if test="gmtModified != null and gmtModified != ''"> and gmt_modified = #{gmtModified} </if>
+			<if test="hasChildLv2 != null and hasChildLv2 != ''"> and parent_id = #{parentId} and type!=2</if>
+		</where>
+	</select>
+	
+	<select id="queryMenuById" resultType="Map">
+		SELECT
+			menu_id menuId,
+			parent_id parentId,
+			`name`,
+			url,
+			perms,
+			type,
+			icon,
+			order_num orderNum,
+			gmt_create createTime,
+			gmt_modified modfTime
+		FROM
+			sys_menu
+		WHERE
+			menu_id = #{menuId}
+	</select>
+	<update id="updateMenuById" parameterType="com.bootdo.system.domain.MenuDO">
+	    update sys_menu
+	    <set>
+	      <if test="parentId != null">
+	        parent_id = #{parentId},
+	      </if>
+	      <if test="name != null">
+	        name = #{name},
+	      </if>
+	      <if test="url != null">
+	        url = #{url},
+	      </if>
+	      <if test="perms != null">
+	        perms = #{perms},
+	      </if>
+	      <if test="type != null">
+	        type = #{type},
+	      </if>
+	      <if test="icon != null">
+	        icon = #{icon},
+	      </if>
+	      <if test="orderNum != null">
+	        order_num = #{orderNum},
+	      </if>
+	      <if test="gmtCreate != null">
+	        gmt_create = #{gmtCreate},
+	      </if>
+	      <if test="gmtModified != null">
+	        gmt_modified = #{gmtModified},
+	      </if>
+	    </set>
+	    where menu_id = #{menuId}
+	  </update>
+	  <insert id="insertMenu" parameterType="com.bootdo.system.domain.MenuDO">
+	    insert into sys_menu
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="menuId != null">
+	        menu_id,
+	      </if>
+	      <if test="parentId != null">
+	        parent_id,
+	      </if>
+	      <if test="name != null">
+	        name,
+	      </if>
+	      <if test="url != null">
+	        url,
+	      </if>
+	      <if test="perms != null">
+	        perms,
+	      </if>
+	      <if test="type != null">
+	        type,
+	      </if>
+	      <if test="icon != null">
+	        icon,
+	      </if>
+	      <if test="orderNum != null">
+	        order_num,
+	      </if>
+	      <if test="gmtCreate != null">
+	        gmt_create,
+	      </if>
+	      <if test="gmtModified != null">
+	        gmt_modified,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="menuId != null">
+	        #{menuId},
+	      </if>
+	      <if test="parentId != null">
+	        #{parentId},
+	      </if>
+	      <if test="name != null">
+	        #{name},
+	      </if>
+	      <if test="url != null">
+	        #{url},
+	      </if>
+	      <if test="perms != null">
+	        #{perms},
+	      </if>
+	      <if test="type != null">
+	        #{type},
+	      </if>
+	      <if test="icon != null">
+	        #{icon},
+	      </if>
+	      <if test="orderNum != null">
+	        #{orderNum},
+	      </if>
+	      <if test="gmtCreate != null">
+	        #{gmtCreate},
+	      </if>
+	      <if test="gmtModified != null">
+	        #{gmtModified},
+	      </if>
+	    </trim>
+	  </insert>
+	  
+	  <delete id="delMenuById" parameterType="java.lang.Long">
+	    delete from sys_menu
+	    where menu_id = #{menuId}
+	  </delete>
+</mapper>
