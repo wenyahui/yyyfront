@@ -11,8 +11,10 @@ package com.bootdo.web.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bootdo.web.dao.ColumnDao;
 import com.bootdo.web.service.ColumnService;
 
 /** 
@@ -25,9 +27,11 @@ import com.bootdo.web.service.ColumnService;
 @Service
 public class ColumnServiceImpl implements ColumnService{
 
+	@Autowired
+	ColumnDao columnDao;
 	@Override
 	public List<Map<String, Object>> getColumnList() {
-		return null;
+		return columnDao.getColumnList();
 	}
 
 

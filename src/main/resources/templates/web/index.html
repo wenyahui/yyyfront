@@ -124,9 +124,11 @@ TouchSlide({ slideCell:"#in_focus",titCell:".hd ul", mainCell:".bd ul", autoPlay
 <div class="clear_h10 bgeee"></div>
 <!--in_news_list-->
 <div class="in_news_tit grid_3">
-	<div class="news_li on">最新口子</div>
-    <div class="news_li">信用卡</div>
-    <div class="news_li">技术干货</div>
+	<#if columnList??>
+		<#list columnList as column>
+			<div columnId="${column.id}" class="news_li columnList <#if column_index==0> on</#if>">${column.name}</div>
+		</#list>
+	</#if>
 </div>
 <div class="in_news_list">
 	<div class="news_box bb x_start_end">
