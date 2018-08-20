@@ -18,4 +18,5 @@ package com.bootdo.utils;
 public class CodeKit {
 	
 	public static final String VERIFY_CODE = "VERIFY_CODE";//验证码
+	public static final String REG_TEL_CODE = "REG_TEL_CODE";//注册短信验证码
 }

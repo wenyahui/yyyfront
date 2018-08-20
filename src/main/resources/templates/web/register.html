@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 <title>app</title>
-<link rel="stylesheet" href="css/style.css"/>
-<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
-<script src="js/mobile.js" type="text/javascript"></script>
-<script src="js/TouchSlide.1.1.js"></script>
+<link rel="stylesheet" href="/static/web/css/style.css"/>
+<script src="/static/web/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/static/web/js/mobile.js" type="text/javascript"></script>
+<script src="/static/web/js/TouchSlide.1.1.js"></script>
+<script src="/static/web/js/layer_m/layer.js"></script>
 </head>
 <body>
 <!--head-->
@@ -19,24 +20,28 @@
 <div class="clear"></div>
 <!--logo-->
 <div class="login_logo">
-	<img src="images/erweima.png" />
+	<img src="/static/web/images/erweima.png" />
 </div>
 <!--login-->
 <div class="login_input">
 	<div class="login_li x_start bb">
     	<span class="name">手机号</span>
-        <div class="con"><input type="text" value="" placeholder="输入手机号" /></div>
+        <div class="con"><input type="text" value="" id="tel" placeholder="输入手机号" /></div>
     </div>
     <div class="login_li x_start bb">
     	<span class="name">验证码</span>
         <div class="con x_start_end">
         	<div><input type="text" value="" placeholder="输入验证码" /></div>
-            <div><a href="#" class="c06b">获取手机验证码</a></div>
+            <div><a href="javascript:;" id="getCode" class="c06b getCode">获取手机验证码</a></div>
         </div>
     </div>
     <div class="login_li x_start bb">
     	<span class="name">设置密码</span>
-        <div class="con"><input type="text" value="" placeholder="输入6-20个字符" /></div>
+        <div class="con"><input type="password" value="" id="password" placeholder="输入6-20个字符" /></div>
+    </div>
+    <div class="login_li x_start bb">
+    	<span class="name">确认密码</span>
+        <div class="con"><input type="password" value="" id="repassword" placeholder="输入6-20个字符" /></div>
     </div>
     <div class=" mt10 mb10 y_center">
     	<div class="inp_checkbox on mr5"><input type="checkbox" checked /></div>
@@ -52,12 +57,80 @@
 <div class="login_other">
 	<div class="tit bb"><h3>第三方登陆</h3></div>
 	<div class="con x_pad_start_end">
-    	<div class="con_li"><img src="images/share/login_wx.png" /></div>
-        <div class="con_li"><img src="images/share/login_qq.png" /></div>
-        <div class="con_li"><img src="images/share/login_sina.png" /></div>
+    	<div class="con_li"><img src="/static/web/images/share/login_wx.png" /></div>
+        <div class="con_li"><img src="/static/web/images/share/login_qq.png" /></div>
+        <div class="con_li"><img src="/static/web/images/share/login_sina.png" /></div>
     </div>
 </div>
 
 </body>
-
+<script type="text/javascript">
+var wait,t;
+$("#getCode").on("click",function(){
+	if($(this).hasClass("getCode")){
+		var phoneReg = /(^1[2|3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+		//电话
+		var tel = $("#tel").val();
+		if(tel==""){
+			layer.open({
+			    content: '请输入手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}else if (!phoneReg.test(tel)) {
+			layer.open({
+			    content: '请输入有效的手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}
+		$("#getCode").removeClass("getCode");
+		var loadingIndex = layer.open({type: 2});
+		$.ajax({
+			type: "POST",
+			url: '/getSMCode',
+	    	data: {tel:tel},
+			dataType:'json',
+			success: function(data){
+				layer.close(loadingIndex);
+				if(data.code==0){
+					layer.open({
+					    content: '验证码已发送!'
+					    ,skin: 'msg'
+					    ,time: 3 //2秒后自动关闭
+					  });
+					$("#getCode").removeClass("getCode");
+					$("#getCode").html("获取手机验证码(60s)");
+					wait = 60;
+					time();
+				}else{ 
+					layer.open({
+					    content: data.msg
+					    ,skin: 'footer'
+					    ,time: 3 //2秒后自动关闭
+					  });
+				}
+			},
+			error:function(){
+				layer.close(loadingIndex);
+			}
+		});
+	}
+})
+function time() {
+	console.info(wait);
+  wait--;
+  $("#getCode").html("获取手机验证码("+wait+"s)");
+  t = setTimeout(function(){
+	  time();
+  }, 1000);
+  if ( wait <= 0 ){
+	  wait = 60;
+	  clearTimeout(t);
+	  $("#getCode").addClass("getCode");
+	  }
+ }
+</script>
 </html>

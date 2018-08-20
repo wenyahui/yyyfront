@@ -2,6 +2,7 @@
  * 首页controller
  */
 package com.bootdo.web;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bootdo.common.config.YunpianConfig;
 import com.bootdo.common.controller.BaseController;
 import com.bootdo.common.utils.MD5Utils;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
 import com.bootdo.utils.CodeKit;
+import com.bootdo.utils.SmsUtil;
+import com.bootdo.utils.VerifyCodeUtil;
+import com.bootdo.web.entity.User;
 import com.bootdo.web.service.ArticleService;
 import com.bootdo.web.service.ColumnService;
+import com.bootdo.web.service.UserService;
+import com.yunpian.sdk.YunpianClient;
+import com.yunpian.sdk.model.Result;
+import com.yunpian.sdk.model.SmsSingleSend;
 
 @Controller
 @RequestMapping("/")
@@ -41,6 +50,10 @@ public class IndexController extends BaseController {
 	private ColumnService columnService;
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	YunpianConfig ypConfig;
 	/**
 	 * 
 	* @Title: welcome 
@@ -79,9 +92,55 @@ public class IndexController extends BaseController {
 	 */
 	@GetMapping("/login")
 	String login(){
-		return "admin/login";
+		return "web/login";
 	}
-
+	
+	@PostMapping("/doLogin")
+	@ResponseBody
+	R doLogin(@RequestParam String tel, @RequestParam String password) {
+		
+		return R.ok();
+	}
+	/**
+	 * 
+	 * @Title: register 
+	 * @Description: 去登录页面
+	 * @return    设定文件 
+	 * @return String    返回类型 
+	 * @throws 
+	 * @author wyh<18749563260@139.com>
+	 */
+	@GetMapping("/reg")
+	String register(){
+		return "web/register";
+	}
+	
+	@PostMapping("/doReg")
+	@ResponseBody
+	R doReg(@RequestParam String tel , @RequestParam String code, @RequestParam String password) {
+		Object sessionCode = request.getSession().getAttribute(CodeKit.REG_TEL_CODE);
+		if(sessionCode!=null && sessionCode.toString().equals(code)) {
+			User user = new User();
+			user.setAddTime(new Date());
+			user.setNickname("用户"+tel.substring(6));
+			user.setPassword(MD5Utils.encrypt(tel,password));
+			userService.addUser(user);
+			return R.ok();
+		}else {
+			return R.error("验证码错误!");
+		}
+	}
+	/**
+	 * 获取短信验证码
+	 * @return
+	 */
+	@PostMapping("/getSMCode")
+	@ResponseBody
+	R getSMCode(@RequestParam String tel) {
+		String code = VerifyCodeUtil.generateVerifyCode(4, VerifyCodeUtil.NUM_CODES);
+		request.getSession().setAttribute(CodeKit.REG_TEL_CODE, code);
+		return SmsUtil.sendSm(ypConfig.getApiKey(), tel, code);
+	}
 	/**
 	 * 
 	* @Title: ajaxLogin 
