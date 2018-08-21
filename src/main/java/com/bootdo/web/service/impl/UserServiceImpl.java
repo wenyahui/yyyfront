@@ -33,4 +33,19 @@ public class UserServiceImpl implements UserService{
 		userMapper.insertSelective(user);
 	}
 
+	@Override
+	public Boolean checkHasUserByTel(String tel) {
+		int count = userMapper.selectUserByTel(tel);
+		if(count==0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public User selectUserByTel(String tel) {
+		return userMapper.selectUserEntityByTel(tel);
+	}
+
 }

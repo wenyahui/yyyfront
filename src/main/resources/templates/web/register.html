@@ -31,7 +31,7 @@
     <div class="login_li x_start bb">
     	<span class="name">验证码</span>
         <div class="con x_start_end">
-        	<div><input type="text" value="" placeholder="输入验证码" /></div>
+        	<div><input type="text" value="" id="yzCode" placeholder="输入验证码" /></div>
             <div><a href="javascript:;" id="getCode" class="c06b getCode">获取手机验证码</a></div>
         </div>
     </div>
@@ -48,20 +48,20 @@
         <div class=" c999">我已阅读并同意<a href="#" class="c06b">《华正金服用户服务协议》</a></div>
     </div>
     <div class="sub">
-    	<a href="#" class="btn">下一步</a>
+    	<a href="javascript:;" class="btn nextStep">下一步</a>
     </div>
-    <div class=" c999">我已有账户<a href="#" class="c06b ml5">立即登录</a></div>
+    <div class=" c999">我已有账户<a href="/login" class="c06b ml5">立即登录</a></div>
 </div>
 
 <!--第三方登陆-->
-<div class="login_other">
+<!-- <div class="login_other">
 	<div class="tit bb"><h3>第三方登陆</h3></div>
 	<div class="con x_pad_start_end">
     	<div class="con_li"><img src="/static/web/images/share/login_wx.png" /></div>
         <div class="con_li"><img src="/static/web/images/share/login_qq.png" /></div>
         <div class="con_li"><img src="/static/web/images/share/login_sina.png" /></div>
     </div>
-</div>
+</div> -->
 
 </body>
 <script type="text/javascript">
@@ -132,5 +132,73 @@ function time() {
 	  $("#getCode").addClass("getCode");
 	  }
  }
+ $(".nextStep").on("click",function(){
+	 var tel = $("#tel").val();
+	 var yzCode = $("#yzCode").val();
+	 if(yzCode==""){
+		layer.open({
+		    content: '请输入验证码!'
+		    ,skin: 'footer'
+		    ,time: 3 //2秒后自动关闭
+		  });
+		return;
+	 }
+	 var password = $("#password").val();
+	 var repassword = $("#repassword").val();
+	 if(password==""){
+		layer.open({
+		    content: '请输入密码!'
+		    ,skin: 'footer'
+		    ,time: 3 //2秒后自动关闭
+		  });
+		return;
+	 }
+	 if(password.length<6||password.length>20){
+		layer.open({
+		    content: '请输入6-20位密码!'
+		    ,skin: 'footer'
+		    ,time: 3 //2秒后自动关闭
+		  });
+		return;
+	 }
+	 if(repassword==""){
+		layer.open({
+		    content: '请确认密码!'
+		    ,skin: 'footer'
+		    ,time: 3 //2秒后自动关闭
+		  });
+		return;
+	 }
+	 if(repassword!=password){
+		layer.open({
+		    content: '两次密码不一致!'
+		    ,skin: 'footer'
+		    ,time: 3 //2秒后自动关闭
+		  });
+		return;
+	 }
+	 var loadingIndex = layer.open({type: 2});
+	 $.ajax({
+			type: "POST",
+			url: '/doReg',
+	    	data: {tel:tel,code:yzCode,password:password},
+			dataType:'json',
+			success: function(data){
+				layer.close(loadingIndex);
+				if(data.code==0){
+					window.location.href="/";
+				}else{ 
+					layer.open({
+					    content: data.msg
+					    ,skin: 'footer'
+					    ,time: 3 //2秒后自动关闭
+					  });
+				}
+			},
+			error:function(){
+				layer.close(loadingIndex);
+			}
+		});
+ })
 </script>
 </html>

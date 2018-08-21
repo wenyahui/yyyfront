@@ -16,9 +16,10 @@ import org.springframework.util.CollectionUtils;
 @Component
 public final class RedisUtil {
     
-    @Autowired
+    @Autowired(required = true)
     private RedisTemplate<String, Object> redisTemplate;
     // =============================common============================
+    
     /**
      * 指定缓存失效时间
      * @param key 键

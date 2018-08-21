@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
 import com.bootdo.common.config.YunpianConfig;
 import com.bootdo.common.controller.BaseController;
@@ -98,7 +99,14 @@ public class IndexController extends BaseController {
 	@PostMapping("/doLogin")
 	@ResponseBody
 	R doLogin(@RequestParam String tel, @RequestParam String password) {
-		
+		User user = userService.selectUserByTel(tel);
+		if(user==null) {
+			return R.error("用户名或密码错误!");
+		}
+		if(!user.getPassword().equals(MD5Utils.encrypt(tel, password))) {
+			return R.error("用户名或密码错误!");
+		}
+		setLoginUser(user);
 		return R.ok();
 	}
 	/**
@@ -121,25 +129,33 @@ public class IndexController extends BaseController {
 		Object sessionCode = request.getSession().getAttribute(CodeKit.REG_TEL_CODE);
 		if(sessionCode!=null && sessionCode.toString().equals(code)) {
 			User user = new User();
+			user.setTel(tel);
 			user.setAddTime(new Date());
 			user.setNickname("用户"+tel.substring(6));
 			user.setPassword(MD5Utils.encrypt(tel,password));
 			userService.addUser(user);
+			setLoginUser(user);
 			return R.ok();
 		}else {
 			return R.error("验证码错误!");
 		}
 	}
 	/**
-	 * 获取短信验证码
+	 * 先验证手机号是否注册,获取注册短信验证码
 	 * @return
 	 */
 	@PostMapping("/getSMCode")
 	@ResponseBody
 	R getSMCode(@RequestParam String tel) {
-		String code = VerifyCodeUtil.generateVerifyCode(4, VerifyCodeUtil.NUM_CODES);
-		request.getSession().setAttribute(CodeKit.REG_TEL_CODE, code);
-		return SmsUtil.sendSm(ypConfig.getApiKey(), tel, code);
+		//根据手机号判断手机号是否注册
+		Boolean flag = userService.checkHasUserByTel(tel);
+		if(flag) {
+			String code = VerifyCodeUtil.generateVerifyCode(4, VerifyCodeUtil.NUM_CODES);
+			request.getSession().setAttribute(CodeKit.REG_TEL_CODE, code);
+			return SmsUtil.sendSm(ypConfig.getApiKey(), tel, code);
+		}else {
+			return R.error("该手机号已注册,请直接登录!");
+		}
 	}
 	/**
 	 * 

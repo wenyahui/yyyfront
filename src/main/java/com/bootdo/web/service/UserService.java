@@ -8,4 +8,6 @@ import com.bootdo.web.entity.User;
 public interface UserService {
 	
 	void addUser(User user);
+	Boolean checkHasUserByTel(String tel);
+	User selectUserByTel(String tel);
 }
