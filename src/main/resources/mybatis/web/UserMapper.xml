@@ -3,13 +3,14 @@
 <mapper namespace="com.bootdo.web.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.bootdo.web.entity.User">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, tel, password, nickname, add_time
+    id,head_pic, tel, password, nickname, add_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,9 +23,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bootdo.web.entity.User">
-    insert into t_user ( tel, password, 
+    insert into t_user ( head_pic,tel, password, 
       nickname, add_time)
-    values ( #{tel,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{headPic,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.bootdo.web.entity.User">
@@ -32,6 +33,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="headPic != null">
+        head_pic,
       </if>
       <if test="tel != null">
         tel,
@@ -50,6 +54,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="headPic != null">
+        #{head_pic,jdbcType=VARCHAR},
+      </if>
       <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
       </if>
@@ -67,6 +74,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.web.entity.User">
     update t_user
     <set>
+      <if test="headPic != null">
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
       <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
@@ -84,7 +94,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bootdo.web.entity.User">
     update t_user
-    set tel = #{tel,jdbcType=VARCHAR},
+    set 
+    head_pic = #{headPic,jdbcType=VARCHAR},
+    tel = #{tel,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP}
