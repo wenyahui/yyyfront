@@ -50,6 +50,26 @@ function pop_box(){
 		$(".pop_box").animate({scrollTop:$(this).offset().top-$(".pop_box").offset().top+$(".pop_box").scrollTop()-30},500);
 	});
 }
+function pop_box2(){
+	
+	$(".pop_box_close").on('click',function(){
+		$(".js_dialog").fadeOut(100);
+	});
+	$("body").on("click",function(){
+		$(".pop_box_close").click();
+	});
+	$(".pop_box").on('click',function(e){
+		e.stopPropagation();
+	});
+	//尺寸改变
+	$(window).resize(function(){
+		box_center();
+	});
+	$(".pop_box *").focus(function(){
+		$(".pop_box").animate({scrollTop:$(this).offset().top-$(".pop_box").offset().top+$(".pop_box").scrollTop()-30},500);
+	});
+}
+
 
 //radio	
 $(function(){

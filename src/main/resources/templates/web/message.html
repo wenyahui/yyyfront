@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 <title>app</title>
-<link rel="stylesheet" href="css/style.css"/>
-<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
-<script src="js/mobile.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/web/css/style.css"/>
+<script src="/static/web/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/static/web/js/mobile.js" type="text/javascript"></script>
+<script src="/static/web/js/layer_m/layer.js"></script>
 </head>
 <body class="bgf65">
 <!--head-->
@@ -16,20 +17,21 @@
     <div class="right"></div>
 </div>
 <!--banner-->
-<img src="images/mes_banner.jpg" />
+<img src="/static/web/images/mes_banner.jpg" />
 <!--留言-->
+<input type="hidden" value="${storeId}" id="hideStoreId">
 <div class="mes_message_top mes_main_box box_siz" id="message_top">
     <ul>
         <li>
-        	<input type="text" value="" class="inp box_sha" placeholder="请输入你的姓名">
+        	<input type="text" value="" maxlength="200" id="oneName" class="inp box_sha" placeholder="请输入你的姓名">
             <i class="m_icon mes_icon name"></i>
         </li>
         <li>
-        	<input type="text" value="" class="inp box_sha" placeholder="请输入手机号码">
+        	<input type="text" value="" maxlength="200" id="oneTel" class="inp box_sha" placeholder="请输入手机号码">
             <i class="m_icon mes_icon pho"></i>
         </li>
         <li>
-            <a href="javascript:;" class="sub box_sha show_pop_box">测测我的借款额度</a>
+            <a href="javascript:;" class="sub box_sha show_pop_box" id="testMoney">测测我的借款额度</a>
         </li>
     </ul>
 </div>
@@ -44,15 +46,15 @@
 <div class="mes_main_box">
 	<div class="mes_tedian grid_3">
     	<div class="tac">
-        	<img src="images/mes_tedian1.png" />
+        	<img src="/static/web/images/mes_tedian1.png" />
             <p class="c246">月费率可低至<span class="cf90">8厘</span></p>
         </div>
         <div class="tac">
-        	<img src="images/mes_tedian2.png" />
+        	<img src="/static/web/images/mes_tedian2.png" />
             <p class="c246">最快<span class="cf90">30分钟</span>到账</p>
         </div>
         <div class="tac">
-        	<img src="images/mes_tedian3.png" />
+        	<img src="/static/web/images/mes_tedian3.png" />
             <p class="c246">审批<span class="cf90">通过率高</span></p>
         </div>
     </div>
@@ -110,7 +112,7 @@
 <!--数量-->
 <div class="mes_main_box">
 	<div class="p10 pt15">
-    	<a href="mes_pro_list.html"><img src="images/mes_tree.png" /></a>
+    	<a href="mes_pro_list.html"><img src="/static/web/images/mes_tree.png" /></a>
     </div>
 	<div class="clear"></div>
     <div class="cd00 tac fs16">哪个适合你？哪个可以做？哪个做不得！</div>
@@ -129,15 +131,15 @@
     <!--失败-->
     <div class="mes_shibai grid_3">
     	<div class="tac">
-        	<img src="images/mes_shibai1.png" />
+        	<img src="/static/web/images/mes_shibai1.png" />
             <p class="c79b">过去失败的经历已经证明了你自己没办法掌控全局，不要羞于认输</p>
         </div>
         <div class="tac">
-        	<img src="images/mes_shibai2.png" />
+        	<img src="/static/web/images/mes_shibai2.png" />
             <p class="c79b">在错误的道路上奔跑，停下来就是进步</p>
         </div>
         <div class="tac">
-        	<img src="images/mes_shibai3.png" />
+        	<img src="/static/web/images/mes_shibai3.png" />
             <p class="c79b">小孩子才计较对错，成年人只在乎得失；这么大的人了别感情用事</p>
         </div>
     </div>
@@ -209,7 +211,7 @@
     </div>
     <div class="clear_h5"></div>
     <div class="p15">
-    	<a href="#message"><img src="images/mes_pri_btn.png" /></a>
+    	<a href="#message"><img src="/static/web/images/mes_pri_btn.png" /></a>
     </div>
     <div class="clear_h5"></div>
     <div class="mes_liucheng_hr"></div>
@@ -224,11 +226,11 @@
     <!--流程-->
     <div class="mes_danxin grid_3">
     	<div class="tac">
-        	<img src="images/mes_danxin1.png" />
+        	<img src="/static/web/images/mes_danxin1.png" />
             <p class="cd00">不想接审核电话</p>
         </div>
         <div class="tac">
-        	<img src="images/mes_danxin2.png" />
+        	<img src="/static/web/images/mes_danxin2.png" />
             <p class="cd00">不想提供流水</p>
         </div>
         <div class="tac">
@@ -239,11 +241,11 @@
     <div class="clear_h10"></div>
     <div class="mes_danxin grid_2" style="padding:0 10%">
     	<div class="tac">
-        	<img src="images/mes_danxin4.png" />
+        	<img src="/static/web/images/mes_danxin4.png" />
             <p class="cd00">不想让家人知道</p>
         </div>
         <div class="tac">
-        	<img src="images/mes_danxin5.png" />
+        	<img src="/static/web/images/mes_danxin5.png" />
             <p class="cd00">不想提供工作证明</p>
         </div>
     </div>
@@ -256,29 +258,29 @@
 <div class="clear"></div>
 <!--留言-->
 <div class="mes_message box_siz" id="message" style="margin-top:-80px;">
-	<img src="images/mes_bg.png" />
+	<img src="/static/web/images/mes_bg.png" />
     <ul>
     	<li class="tit">极速贷款，优惠活动体验中</li>
         <li>
-        	<input type="text" value="" class="inp box_sha" placeholder="请输入你的姓名">
+        	<input type="text" value="" id="twoName" maxlength="200" class="inp box_sha" placeholder="请输入你的姓名">
             <i class="m_icon mes_icon name"></i>
         </li>
         <li>
-        	<input type="text" value="" class="inp box_sha" placeholder="请输入手机号码">
+        	<input type="text" value="" id="twoTel" maxlength="200" class="inp box_sha" placeholder="请输入手机号码">
             <i class="m_icon mes_icon pho"></i>
         </li>
         <li>
-            <a href="javascript:;" class="sub box_sha show_pop_box">立即报名体验</a>
+            <a href="javascript:;" class="sub box_sha show_pop_box" id="ljbm">立即报名体验</a>
         </li>
     </ul>
 </div>
 <div class="clear"></div>
 <!--foot-->
-<div class="clear_h50"></div>
-<div class="foot bt box_sha">
+<!-- <div class="clear_h50"></div> -->
+<!-- <div class="foot bt box_sha">
 	<div class="x_pad_start_end">
     	<div class="foot_li">
-        	<a href="index.html">
+        	<a href="/">
                 <i class="m_icon home"></i>
                 <p>首页</p>
             </a>
@@ -296,7 +298,7 @@
             </a>
         </div>
     </div>
-</div>
+</div> -->
 
 <!--悬浮-->
 <div class="tooltip">
@@ -310,12 +312,139 @@
     <div class="pop_box">
     	<div class="pop_box_close close"><i class="m_icon"></i></div>
         <div class="pop_box_con success">
-            <img src="images/mes_success.jpg" />
+            <img src="/static/web/images/mes_success.jpg" />
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-	pop_box();
+var phoneReg = /(^1[2|3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
+	pop_box2();
+	function showBox(){
+		$(".js_dialog").fadeIn(200);
+		var box_w,box_h;
+		box_w=$(".pop_box").outerWidth();
+		box_h=$(".pop_box").outerHeight();
+		$(".pop_box").css({"margin-top":-box_h/2,"margin-left":-box_w/2});
+	}
+	$("#testMoney").on("click",function(){
+		var storeId = $("#hideStoreId").val();
+		var tel = $("#oneTel").val();
+		if(tel==""){
+			layer.open({
+			    content: '请输入手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}else if (!phoneReg.test(tel)) {
+			layer.open({
+			    content: '请输入有效的手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}
+		var name = $("#oneName").val();
+		if(name==""){
+			layer.open({
+			    content: '请输入姓名!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}
+		var loadingIndex = layer.open({type: 2});
+		$.ajax({
+			type: "POST",
+			url: '/saveLoan',
+	    	data: {tel:tel,name:name,storeId:storeId},
+			dataType:'json',
+			success: function(data){
+				layer.close(loadingIndex);
+				if(data.code==0){
+					showBox();
+					/* layer.open({
+					    content: '移动版和PC版不能同时存在同一页面'
+					    ,btn: '我知道了'
+				    	,yes: function(index){
+				    		window.location.reload(true);
+					    }
+					  }); */
+				}else{ 
+					showBox();
+				}
+			},
+			error:function(){
+				layer.close(loadingIndex);
+				showBox();
+			}
+		});
+	})
+	$("#ljbm").on("click",function(){
+		var storeId = $("#hideStoreId").val();
+		var tel = $("#twoTel").val();
+		if(tel==""){
+			layer.open({
+			    content: '请输入手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}else if (!phoneReg.test(tel)) {
+			layer.open({
+			    content: '请输入有效的手机号!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}
+		var name = $("#twoName").val();
+		if(name==""){
+			layer.open({
+			    content: '请输入姓名!'
+			    ,skin: 'footer'
+			    ,time: 3 //2秒后自动关闭
+			  });
+			return;
+		}
+		var loadingIndex = layer.open({type: 2});
+		$.ajax({
+			type: "POST",
+			url: '/saveLoan',
+	    	data: {tel:tel,name:name,storeId:storeId},
+			dataType:'json',
+			success: function(data){
+				layer.close(loadingIndex);
+				if(data.code==0){
+					layer.open({
+					    content: '参加成功,工作人员会在3个工作日内与您联系!'
+					    ,btn: '好的'
+				    	,yes: function(index){
+				    		window.location.reload(true);
+					    }
+					  });
+				}else{ 
+					layer.open({
+					    content: '网络异常,刷新后重试!'
+					    ,btn: '好的'
+				    	,yes: function(index){
+				    		window.location.reload(true);
+					    }
+					  });
+				}
+			},
+			error:function(){
+				layer.close(loadingIndex);
+				layer.open({
+				    content: '网络异常,刷新后重试!'
+				    ,btn: '好的'
+			    	,yes: function(index){
+			    		window.location.reload(true);
+				    }
+				  });
+			}
+		});
+	})
 </script>
 </html>
